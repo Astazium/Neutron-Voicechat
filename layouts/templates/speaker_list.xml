@@ -1,0 +1,4 @@
+<panel color="#49535F" size="-1,35" orientation="horizontal">
+    <image src="gui/speaker"></image>
+    <label size-func="-1,-1">%{username}</label>
+</panel>

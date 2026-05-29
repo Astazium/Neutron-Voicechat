@@ -1,0 +1,5 @@
+<panel color="#49535F" size="-1,35">
+    <label size-func="-1,25">%{username}</label>
+    <trackbar step="0.1" value="1" 
+        consumer='function(volume) events.emit(PACK_NAME .. ":speaker_volume_change", %{pid}, volume) end'/>
+</panel>

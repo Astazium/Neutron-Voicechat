@@ -1,0 +1,9 @@
+<container color='#00000080' size-func='-1,-1'>
+    <panel color='#507090E0' size='300' padding='16'
+           gravity='center-center' interval='8' max-length="450">
+    <label>Регулировка громкости игроков</label>
+    <panel id="speakers">
+        <!-- generated content -->
+    </panel>
+    </panel>
+</container>
