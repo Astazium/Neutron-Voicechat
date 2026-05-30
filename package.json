@@ -1,7 +1,7 @@
 {
     "id": "voicechat",
     "title": "Neutron-Voicechat",
-    "version": "1.0",
+    "version": "1.0.0",
     "creator": "Astazium",
     "description": "Voice chat for Neutron"
 }
