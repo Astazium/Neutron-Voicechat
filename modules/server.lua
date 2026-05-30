@@ -4,7 +4,7 @@ local NEUTRON_API = require(string.format("%s:api/%s/api", _G["$Multiplayer"].pa
 NEUTRON_API.events.on(PACK_NAME, "record", function (sender_client, bytes)
     local data = bjson.frombytes(bytes)
     if not data.samples or #data.samples == 0 then
-        print("Rejected empty voice packet from \"" .. sender_client .. "\"")
+        print("Rejected empty voice packet from \"" .. sender_client.player.username .. "\"")
         return
     end
     for _, player in pairs(NEUTRON_API.sandbox.players.get_all()) do
