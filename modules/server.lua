@@ -6,10 +6,8 @@ events.on(PACK_NAME .. ":world_open",function ()
     local config_path = pack.shared_file(PACK_NAME, "config.toml")
     if not file.exists(config_path) then
         file.write(config_path, toml.tostring({MAX_SPEAKERS = 8}))
-        debug.print(MAX_SPEAKERS)
     end
     MAX_SPEAKERS = toml.parse(file.read(config_path)).MAX_SPEAKERS
-    debug.print(MAX_SPEAKERS)
 end)
 
 ---@type neutron.server
