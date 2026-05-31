@@ -1,0 +1,2 @@
+voicechat.you-exceed-speakers-limit=Вы превысели лимит участников голосового чата
+voicechat.=Не удалось начать 

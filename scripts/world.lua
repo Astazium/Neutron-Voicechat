@@ -7,6 +7,10 @@ elseif m and m.side == "client" then
 	require("client")
 end
 
+function on_world_open()
+	events.emit(PACK_NAME .. ":world_open")
+end
+
 function on_world_tick()
     events.emit(PACK_NAME .. ":world_tick")
 end

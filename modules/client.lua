@@ -23,17 +23,26 @@ do
         end
         local samples = audio.input.fetch(ACCESS_TOKEN, CHUNK_SIZE)
         if samples and #samples > 0 then
-            NEUTRON_API.events.send(PACK_NAME, "record", bjson.tobytes({input_info=INPUT_INFO, samples=samples}, true))
+            NEUTRON_API.events.send(PACK_NAME, "record_data", bjson.tobytes({input_info=INPUT_INFO, samples=samples}, true))
         end
+    end)
+
+    NEUTRON_API.events.on(PACK_NAME, "record_reject", function (reason_key)
+        if not RECORDING then
+            return
+        end
+        RECORDING = false
+        events.emit(PACK_NAME .. ":record_indicate", RECORDING)
+        gui.alert(gui.str(utf8.tostring(reason_key), "voicechat"))
     end)
 end
 
 do
-    local streams = {}  -- streams[pid] = {stream, speaker, initialized}
+    local STREAMS = {}  -- STREAMS[pid] = {stream, speaker, initialized}
 
     local function get_or_create_stream(pid, input_info)
-        if streams[pid] then
-            return streams[pid]
+        if STREAMS[pid] then
+            return STREAMS[pid]
         end
         local stream = audio.PCMStream(
             input_info.sample_rate,
@@ -42,7 +51,7 @@ do
         )
         local stream_name = "voicechat_" .. pid
         local entry = {stream=stream, stream_name=stream_name, speaker=nil, initialized=false}
-        streams[pid] = entry
+        STREAMS[pid] = entry
         return entry
     end
 
@@ -53,7 +62,7 @@ do
         entry.speaker = audio.play_stream_2d(entry.stream_name, 1.0, 1.0)
     end
 
-    NEUTRON_API.events.on(PACK_NAME, "voice", function(bytes)
+    NEUTRON_API.events.on(PACK_NAME, "record_data", function(bytes)
         local data = bjson.frombytes(bytes)
         local samples = data.samples
         if not samples or #samples == 0 then

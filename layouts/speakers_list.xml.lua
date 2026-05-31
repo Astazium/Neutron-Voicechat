@@ -27,7 +27,7 @@ end
 
 ---@type neutron.client
 local NEUTRON_API = require(string.format("%s:api/%s/api", _G["$Multiplayer"].pack_id, _G["$Multiplayer"].api_references.Neutron.latest))["client"]
-NEUTRON_API.events.on(PACK_NAME, "voice", function(bytes)
+NEUTRON_API.events.on(PACK_NAME, "record_data", function(bytes)
     local data = bjson.frombytes(bytes)
     local pid = data.player.pid
     local was_absent = speakers[pid] == nil
