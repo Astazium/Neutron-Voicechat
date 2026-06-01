@@ -15,8 +15,8 @@ do
             events.emit(PACK_NAME .. ":record_indicate", RECORDING)
         end)
     end)
-    local INPUT_INFO = audio.input.get_input_info()
-    local CHUNK_SIZE = math.floor(INPUT_INFO.sample_rate / 20) * 2
+    local INPUT_INFO = audio.input.get_input_info() or {}
+    local CHUNK_SIZE = math.floor(INPUT_INFO.sample_rate or 44100 / 20) * 2
     events.on(PACK_NAME .. ":world_tick", function ()
         if not RECORDING then
             return
