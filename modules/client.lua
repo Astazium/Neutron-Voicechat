@@ -23,7 +23,7 @@ do
         end
         local samples = audio.input.fetch(ACCESS_TOKEN, CHUNK_SIZE)
         if samples and #samples > 0 then
-            NEUTRON_API.events.send(PACK_NAME, "record_data", bjson.tobytes({input_info=INPUT_INFO, samples=samples}, true))
+            NEUTRON_API.events.send(PACK_NAME, "record_data", bjson.tobytes({input_info=INPUT_INFO or {}, samples=samples}, true))
         end
     end)
 
@@ -45,9 +45,9 @@ do
             return STREAMS[pid]
         end
         local stream = audio.PCMStream(
-            input_info.sample_rate,
-            input_info.channels,
-            input_info.bits_per_sample
+            input_info.sample_rate or 44100,
+            input_info.channels or 1,
+            input_info.bits_per_sample or 16
         )
         local stream_name = "voicechat_" .. pid
         local entry = {stream=stream, stream_name=stream_name, speaker=nil, initialized=false}

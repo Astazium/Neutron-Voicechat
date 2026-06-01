@@ -41,7 +41,7 @@ NEUTRON_API.events.on(PACK_NAME, "record_data", function (sender_client, bytes)
         if client and client ~= sender_client then
             NEUTRON_API.events.tell(PACK_NAME, "record_data", client,
                 bjson.tobytes({
-                    player=sender_client.player,
+                    player={pid=sender_client.player.pid, username=sender_client.player.username},
                     input_info=data.input_info,
                     samples=data.samples
                 }, true)
