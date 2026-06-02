@@ -22,13 +22,12 @@ events.on(PACK_NAME .. ":world_tick", function ()
     end
 end)
 
-NEUTRON_API.events.on(PACK_NAME, "record_data", function (sender_client, bytes)
+NEUTRON_API.events.on(PACK_NAME, "record_data", function (sender_client, samples)
     if ACTIVE_SPEAKERS_COUNT >= MAX_SPEAKERS and not ACTIVE_SPEAKERS[sender_client.player.identity] then
         NEUTRON_API.events.tell(PACK_NAME, "record_reject", sender_client, utf8.tobytes("you-exceed-speakers-limit"))
         return
     end
-    local data = bjson.frombytes(bytes)
-    if not data.samples or #data.samples == 0 then
+    if not samples or #samples == 0 then
         print("Rejected empty voice packet from \"" .. sender_client.player.username .. "\"")
         return
     end
@@ -42,8 +41,7 @@ NEUTRON_API.events.on(PACK_NAME, "record_data", function (sender_client, bytes)
             NEUTRON_API.events.tell(PACK_NAME, "record_data", client,
                 bjson.tobytes({
                     player={pid=sender_client.player.pid, username=sender_client.player.username},
-                    input_info=data.input_info,
-                    samples=data.samples
+                    samples=samples
                 }, true)
             )
         end

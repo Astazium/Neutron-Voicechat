@@ -15,15 +15,13 @@ do
             events.emit(PACK_NAME .. ":record_indicate", RECORDING)
         end)
     end)
-    local INPUT_INFO = audio.input.get_input_info() or {}
-    local CHUNK_SIZE = math.floor((INPUT_INFO.sample_rate or 44100) / 20) * 2
     events.on(PACK_NAME .. ":world_tick", function ()
         if not RECORDING then
             return
         end
-        local samples = audio.input.fetch(ACCESS_TOKEN, CHUNK_SIZE)
+        local samples = audio.input.fetch(ACCESS_TOKEN)
         if samples and #samples > 0 then
-            NEUTRON_API.events.send(PACK_NAME, "record_data", bjson.tobytes({input_info=INPUT_INFO or {}, samples=samples}, true))
+            NEUTRON_API.events.send(PACK_NAME, "record_data", samples)
         end
     end)
 
@@ -38,17 +36,13 @@ do
 end
 
 do
-    local STREAMS = {}  -- STREAMS[pid] = {stream, speaker, initialized}
+    local STREAMS = {}  -- STREAMS[pid] = {stream, stream_name, speaker, initialized}
 
-    local function get_or_create_stream(pid, input_info)
+    local function get_or_create_stream(pid)
         if STREAMS[pid] then
             return STREAMS[pid]
         end
-        local stream = audio.PCMStream(
-            input_info.sample_rate or 44100,
-            input_info.channels or 1,
-            input_info.bits_per_sample or 16
-        )
+        local stream = audio.PCMStream(44100, 1, 16)
         local stream_name = "voicechat_" .. pid
         local entry = {stream=stream, stream_name=stream_name, speaker=nil, initialized=false}
         STREAMS[pid] = entry
@@ -68,7 +62,7 @@ do
         if not samples or #samples == 0 then
             return
         end
-        local entry = get_or_create_stream(data.player.pid, data.input_info)
+        local entry = get_or_create_stream(data.player.pid)
 
         if not entry.initialized then
             entry.stream:feed(samples)
