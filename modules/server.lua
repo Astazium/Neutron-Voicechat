@@ -35,6 +35,7 @@ NEUTRON_API.events.on(PACK_NAME, "record_data", function (sender_client, samples
         ACTIVE_SPEAKERS_COUNT = ACTIVE_SPEAKERS_COUNT + 1
     end
     ACTIVE_SPEAKERS[sender_client.player.identity] = time.uptime()
+
     for _, player in pairs(NEUTRON_API.sandbox.players.get_all()) do
         local client = NEUTRON_API.accounts.by_identity.get_client(player.identity)
         if client and client ~= sender_client then
