@@ -1,1 +1,3 @@
-voicechat.you-exceed-speakers-limit=You exceed speakers limit
+voicechat-you-exceed-speakers-limit=You exceed speakers limit
+voicechat-unavailable=Voice chat is currently unavailable.
+voicechat-only-multiplayer=Voice chat is only available in multiplayer.

@@ -1,1 +1,3 @@
-voicechat.you-exceed-speakers-limit=Вы превысели лимит участников голосового чата
+voicechat-you-exceed-speakers-limit=Вы превысели лимит участников голосового чата
+voicechat-unavailable=Голосовой чат сейчас не доступен
+voicechat-only-multiplayer=Голосовой чат доступен только в мультиплеере
