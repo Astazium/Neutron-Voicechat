@@ -12,7 +12,7 @@ events.on(PACK_ID .. ":world_open", function ()
         local config_file = pack.shared_file(PACK_ID, "config.toml")
         if not file.exists(config_file) then
             file.write(config_file, DEFAULTS_STR)
-            print("\nConfiguration generated. See "..string.escape(config_file).."\n")
+            print("\nVOICECHAT: configuration generated. See "..string.escape(config_file).."\n")
             return
         else
             local readconfig = toml.parse(file.read(config_file))
@@ -60,6 +60,7 @@ events.on(PACK_ID .. ":world_open", function ()
             end
         end
     end)
+    print(string.format("\nVOICECHAT: opened udp server at port %s\n", config.port))
 
     events.on(PACK_ID .. ":world_tick", function ()
         for identity, last_seen in pairs(active_speakers) do
