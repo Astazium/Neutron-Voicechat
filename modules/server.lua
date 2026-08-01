@@ -2,7 +2,7 @@ local DEFAULTS_STR = [[
 # Neutron-Voicechat configuration
 ip = "localhost"
 max_speakers = 8
-port = 25568
+port = 22005
 ]]
 
 events.on(PACK_ID .. ":world_open", function ()
